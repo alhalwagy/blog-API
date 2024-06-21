@@ -1,7 +1,5 @@
 package com.java.blogApp.security;
 
-package com.java.blogApp.security;
-
 import com.java.blogApp.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
