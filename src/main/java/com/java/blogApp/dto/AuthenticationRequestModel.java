@@ -1,4 +1,4 @@
-package com.java.blogApp.model;
+package com.java.blogApp.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

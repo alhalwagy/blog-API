@@ -1,4 +1,4 @@
-package com.java.blogApp.model.error;
+package com.java.blogApp.dto.error;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
