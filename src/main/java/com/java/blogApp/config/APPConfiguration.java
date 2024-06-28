@@ -1,8 +1,6 @@
 package com.java.blogApp.config;
 
-import com.java.blogApp.entity.User;
 import com.java.blogApp.repository.UserRepository;
-import com.java.blogApp.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,15 +21,13 @@ public class APPConfiguration {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> {
-            User user = userRepository.findByEmail(username)
-                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-            return new CustomUserDetails(user);
-        };
+        return username ->
+                userRepository.findByEmail(username)
+                        .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(){
+    public AuthenticationProvider authenticationProvider() {
 
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService());

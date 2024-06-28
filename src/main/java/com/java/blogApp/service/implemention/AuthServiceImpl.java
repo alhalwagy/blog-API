@@ -8,15 +8,11 @@ import com.java.blogApp.exception.customExceptions.NotAuthToSeeResourseException
 import com.java.blogApp.exception.customExceptions.RecordNotFoundException;
 import com.java.blogApp.mapper.AuthenticationMapper;
 import com.java.blogApp.repository.UserRepository;
-import com.java.blogApp.security.CustomUserDetails;
 import com.java.blogApp.security.JwtService;
 import com.java.blogApp.service.AuthService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,43 +27,33 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AuthentecationResponseModel register(RegisterRequestModel requestModel) {
 
-        if(userRepository.existsByEmail(requestModel.getEmail())){
+        if (userRepository.existsByEmail(requestModel.getEmail())) {
             throw new NotAuthToSeeResourseException("Email or phone is already in use");
         }
 
         User user = authenticationMapper.toEntity(requestModel);
 
-        CustomUserDetails customUserDetails = new CustomUserDetails(user);
 
         userRepository.save(user);
 
-        return authenticationMapper.toAuthResponse(jwtService.generateToken( customUserDetails));
+        return authenticationMapper.toAuthResponse(jwtService.generateToken(user));
 
     }
 
     @Override
     public AuthentecationResponseModel login(AuthenticationRequestModel requestModel) {
 
-        System.out.println("yessssssssssssssssssssssssssssss");
-//            authenticationManager.authenticate(
-//                    new UsernamePasswordAuthenticationToken(requestModel.getEmail(), requestModel.getPassword())
-//            );
 
-        try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(requestModel.getEmail(), requestModel.getPassword())
-            );
-        } catch (AuthenticationException e) {
-            System.err.println("Authentication failed: " + e.getMessage());
-            throw new RuntimeException("Invalid credentials", e);
-        }
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(requestModel.getEmail(), requestModel.getPassword())
+        );
 
-        User user = userRepository.findByEmail(requestModel.getEmail()).orElseThrow(()-> new RecordNotFoundException("email or phone not found"));
+
+        User user = userRepository.findByEmail(requestModel.getEmail()).orElseThrow(() -> new RecordNotFoundException("email or phone not found"));
         System.out.println(user.toString());
 
-        CustomUserDetails customUserDetails = new CustomUserDetails(user);
 
-        String token = jwtService.generateToken(customUserDetails);
+        String token = jwtService.generateToken(user);
 
         System.out.println(token);
         return authenticationMapper.toAuthResponse(token);
