@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -71,5 +72,28 @@ public class UserServiceImpl implements UserService {
                 () -> new RecordNotFoundException("User with email " + email + " not found"));
 
     userRepository.delete(user);
+  }
+
+  @Override
+  public List<UserResponseModel> searchUserByCritera(String email, String firstname, String lastname) {
+
+    List<User> users = new ArrayList<>();
+    if(email != null) {
+       users.addAll(userRepository.findAllByEmail(email));
+
+    }else if(firstname != null) {
+      users.addAll( userRepository.findAllByFirstname(firstname));
+
+      return users.stream().map(userResponseMapper::toResponse).toList();
+    }else if(lastname != null) {
+     users.addAll( userRepository.findAllByLastname(lastname));
+
+
+    }else {
+      users.addAll(userRepository.findAll());
+    }
+
+    return users.stream().map(userResponseMapper::toResponse).toList();
+
   }
 }

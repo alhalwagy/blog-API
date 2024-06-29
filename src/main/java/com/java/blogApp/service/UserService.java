@@ -14,4 +14,6 @@ public interface UserService {
   UserResponseModel updateUser(UserRequestModel requestModel);
 
   void deleteAccount();
+
+  List<UserResponseModel> searchUserByCritera(String email, String firstname, String lastname);
 }

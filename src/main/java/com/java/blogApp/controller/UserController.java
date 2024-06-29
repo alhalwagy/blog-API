@@ -37,4 +37,14 @@ public class UserController {
 
     userService.deleteAccount();
   }
+
+  @GetMapping(value = "/search")
+  public List<UserResponseModel> searchUserByCritera(@RequestParam(required = false) String email,
+                                                     @RequestParam(required = false) String firstname,
+                                                     @RequestParam(required = false) String lastname) {
+
+    return userService.searchUserByCritera(email,firstname,lastname);
+
+  }
+
 }
