@@ -1,6 +1,5 @@
 package com.java.blogApp.entity;
 
-
 import com.java.blogApp.entity.enums.Role;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -95,5 +94,27 @@ public class User implements UserDetails {
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Like> likes;
 
-
+  @Override
+  public String toString() {
+    return "User{"
+        + "id="
+        + id
+        + ", email='"
+        + email
+        + '\''
+        + ", firstname='"
+        + firstname
+        + '\''
+        + ", lastname='"
+        + lastname
+        + '\''
+        + ", password='"
+        + password
+        + '\''
+        + ", createdAt="
+        + createdAt
+        + ", updatedAt="
+        + updatedAt
+        + '}';
+  }
 }

@@ -1,8 +1,8 @@
 package com.java.blogApp.service.implemention;
 
-import com.java.blogApp.dto.AuthentecationResponseModel;
-import com.java.blogApp.dto.AuthenticationRequestModel;
-import com.java.blogApp.dto.RegisterRequestModel;
+import com.java.blogApp.dto.authentication.AuthentecationResponseModel;
+import com.java.blogApp.dto.authentication.AuthenticationRequestModel;
+import com.java.blogApp.dto.authentication.RegisterRequestModel;
 import com.java.blogApp.entity.User;
 import com.java.blogApp.exception.customExceptions.NotAuthToSeeResourseException;
 import com.java.blogApp.exception.customExceptions.RecordNotFoundException;
@@ -19,45 +19,41 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
-    private final UserRepository userRepository;
-    private final AuthenticationManager authenticationManager;
-    private final JwtService jwtService;
-    private final AuthenticationMapper authenticationMapper;
+  private final UserRepository userRepository;
+  private final AuthenticationManager authenticationManager;
+  private final JwtService jwtService;
+  private final AuthenticationMapper authenticationMapper;
 
-    @Override
-    public AuthentecationResponseModel register(RegisterRequestModel requestModel) {
+  @Override
+  public AuthentecationResponseModel register(RegisterRequestModel requestModel) {
 
-        if (userRepository.existsByEmail(requestModel.getEmail())) {
-            throw new NotAuthToSeeResourseException("Email or phone is already in use");
-        }
-
-        User user = authenticationMapper.toEntity(requestModel);
-
-
-        userRepository.save(user);
-
-        return authenticationMapper.toAuthResponse(jwtService.generateToken(user));
-
+    if (userRepository.existsByEmail(requestModel.getEmail())) {
+      throw new NotAuthToSeeResourseException("Email or phone is already in use");
     }
 
-    @Override
-    public AuthentecationResponseModel login(AuthenticationRequestModel requestModel) {
+    User user = authenticationMapper.toEntity(requestModel);
 
+    userRepository.save(user);
 
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(requestModel.getEmail(), requestModel.getPassword())
-        );
+    return authenticationMapper.toAuthResponse(jwtService.generateToken(user));
+  }
 
+  @Override
+  public AuthentecationResponseModel login(AuthenticationRequestModel requestModel) {
 
-        User user = userRepository.findByEmail(requestModel.getEmail()).orElseThrow(() -> new RecordNotFoundException("email or phone not found"));
-        System.out.println(user.toString());
+    authenticationManager.authenticate(
+        new UsernamePasswordAuthenticationToken(
+            requestModel.getEmail(), requestModel.getPassword()));
 
+    User user =
+        userRepository
+            .findByEmail(requestModel.getEmail())
+            .orElseThrow(() -> new RecordNotFoundException("email or phone not found"));
+    System.out.println(user.toString());
 
-        String token = jwtService.generateToken(user);
+    String token = jwtService.generateToken(user);
 
-        System.out.println(token);
-        return authenticationMapper.toAuthResponse(token);
-
-
-    }
+    System.out.println(token);
+    return authenticationMapper.toAuthResponse(token);
+  }
 }

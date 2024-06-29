@@ -1,4 +1,4 @@
-package com.java.blogApp.dto;
+package com.java.blogApp.dto.authentication;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,11 +11,11 @@ import lombok.NoArgsConstructor;
 @Builder
 public class RegisterRequestModel {
 
-    private  String email;
+  private String email;
 
-    private  String password;
+  private String password;
 
-    private String firstname;
+  private String firstname;
 
-    private String lastname;
+  private String lastname;
 }

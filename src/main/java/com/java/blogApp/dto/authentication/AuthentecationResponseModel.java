@@ -1,4 +1,4 @@
-package com.java.blogApp.dto;
+package com.java.blogApp.dto.authentication;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,6 +11,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class AuthentecationResponseModel {
 
-    private String token;
-
+  private String token;
 }

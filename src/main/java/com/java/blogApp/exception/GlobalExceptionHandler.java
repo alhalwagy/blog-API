@@ -13,28 +13,29 @@ import java.sql.Timestamp;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler
-    public ResponseEntity<ResponseError> handleRecordNotFoundException(RecordNotFoundException recordNotFoundException) {
+  @ExceptionHandler
+  public ResponseEntity<ResponseError> handleRecordNotFoundException(
+      RecordNotFoundException recordNotFoundException) {
 
-        ResponseError responseError = ResponseError.builder()
-                .message(recordNotFoundException
-                .getMessage())
-                .status(HttpStatus.NOT_FOUND)
-                .occurredOn(new Timestamp(System.currentTimeMillis()))
-                .build();
-        return new ResponseEntity<>(responseError, HttpStatus.NOT_FOUND);
-    }
+    ResponseError responseError =
+        ResponseError.builder()
+            .message(recordNotFoundException.getMessage())
+            .status(HttpStatus.NOT_FOUND)
+            .occurredOn(new Timestamp(System.currentTimeMillis()))
+            .build();
+    return new ResponseEntity<>(responseError, HttpStatus.NOT_FOUND);
+  }
 
-    @ExceptionHandler
-    public ResponseEntity<ResponseError> handleNotAuthorizedException(NotAuthToSeeResourseException notAuthToSeeResourseException) {
-        ResponseError responseError = ResponseError.builder()
-                .message(notAuthToSeeResourseException.getMessage())
-                .status(HttpStatus.UNAUTHORIZED)
-                .occurredOn(new Timestamp(System.currentTimeMillis()))
-                .build();
+  @ExceptionHandler
+  public ResponseEntity<ResponseError> handleNotAuthorizedException(
+      NotAuthToSeeResourseException notAuthToSeeResourseException) {
+    ResponseError responseError =
+        ResponseError.builder()
+            .message(notAuthToSeeResourseException.getMessage())
+            .status(HttpStatus.UNAUTHORIZED)
+            .occurredOn(new Timestamp(System.currentTimeMillis()))
+            .build();
 
-        return new ResponseEntity<>(responseError, HttpStatus.UNAUTHORIZED);
-
-
-    }
+    return new ResponseEntity<>(responseError, HttpStatus.UNAUTHORIZED);
+  }
 }

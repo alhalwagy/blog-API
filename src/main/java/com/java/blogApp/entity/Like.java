@@ -34,15 +34,13 @@ public class Like {
   @Column(name = "updated_at", nullable = false)
   private Timestamp updatedAt;
 
-  @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH,
-      CascadeType.PERSIST})
+  @ManyToOne(
+      cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
   @JoinColumn(name = "post_id")
   private Post post;
 
-  @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH,
-      CascadeType.PERSIST})
+  @ManyToOne(
+      cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
   @JoinColumn(name = "auther_id")
   private User user;
-
-
 }

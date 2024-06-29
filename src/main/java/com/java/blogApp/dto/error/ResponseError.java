@@ -14,8 +14,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 public class ResponseError {
 
-    private String message;
-    private HttpStatus status;
-    private Timestamp occurredOn;
-
+  private String message;
+  private HttpStatus status;
+  private Timestamp occurredOn;
 }

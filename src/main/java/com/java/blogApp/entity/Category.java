@@ -43,9 +43,12 @@ public class Category {
   @Column(name = "updated_at", nullable = false)
   private Timestamp updatedAt;
 
-  @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE,
-      CascadeType.REFRESH, CascadeType.PERSIST})
-  @JoinTable(name = "post_categories", joinColumns = @JoinColumn(name = "category_id"), inverseJoinColumns = @JoinColumn(name = "post_id"))
+  @ManyToMany(
+      fetch = FetchType.LAZY,
+      cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+  @JoinTable(
+      name = "post_categories",
+      joinColumns = @JoinColumn(name = "category_id"),
+      inverseJoinColumns = @JoinColumn(name = "post_id"))
   private List<Post> posts;
-
 }

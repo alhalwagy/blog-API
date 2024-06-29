@@ -1,10 +1,15 @@
 package com.java.blogApp.service.implemention;
+
+import com.java.blogApp.dto.user.UserRequestModel;
 import com.java.blogApp.entity.User;
+import com.java.blogApp.exception.customExceptions.RecordNotFoundException;
 import com.java.blogApp.mapper.UserResponseMapper;
-import com.java.blogApp.dto.UserResponseModel;
+import com.java.blogApp.dto.user.UserResponseModel;
 import com.java.blogApp.repository.UserRepository;
 import com.java.blogApp.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,15 +18,58 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
+  private final UserRepository userRepository;
 
+  private final UserResponseMapper userResponseMapper;
 
-    private final UserResponseMapper userResponseMapper;
+  @Override
+  public List<UserResponseModel> findAllUsers() {
+    List<User> users = userRepository.findAll();
 
-    @Override
-    public List<UserResponseModel> findAllUsers() {
-        List<User> users = userRepository.findAll();
+    return users.stream().map(userResponseMapper::toResponse).toList();
+  }
 
-       return users.stream().map(userResponseMapper::toResponse).toList();
-    }
+  @Override
+  public UserResponseModel findUserById(int id) {
+
+    User user =
+        userRepository
+            .findById(id)
+            .orElseThrow(() -> new RecordNotFoundException("User with id " + id + " not found"));
+
+    return userResponseMapper.toResponse(user);
+  }
+
+  @Override
+  public UserResponseModel updateUser(UserRequestModel requestModel) {
+
+    String email = SecurityContextHolder.getContext().getAuthentication().getName();
+
+    User user =
+        userRepository
+            .findByEmail(email)
+            .orElseThrow(
+                () -> new RecordNotFoundException("User with email " + email + " not found"));
+
+    user.setFirstname(requestModel.getFirstname());
+    user.setLastname(requestModel.getLastname());
+
+    userRepository.save(user);
+
+    return userResponseMapper.toResponse(user);
+  }
+
+  @Override
+  public void deleteAccount() {
+
+    String email = SecurityContextHolder.getContext().getAuthentication().getName();
+
+    User user =
+        userRepository
+            .findByEmail(email)
+            .orElseThrow(
+                () -> new RecordNotFoundException("User with email " + email + " not found"));
+
+    userRepository.delete(user);
+  }
 }

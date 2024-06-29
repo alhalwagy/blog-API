@@ -1,11 +1,10 @@
 package com.java.blogApp.controller;
 
-import com.java.blogApp.dto.UserResponseModel;
+import com.java.blogApp.dto.user.UserRequestModel;
+import com.java.blogApp.dto.user.UserResponseModel;
 import com.java.blogApp.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -14,14 +13,28 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
 
+  private final UserService userService;
 
-    private final UserService userService;
+  @GetMapping("")
+  public List<UserResponseModel> findAllUsers() {
+    return userService.findAllUsers();
+  }
 
+  @GetMapping("{id}")
+  public UserResponseModel findUserById(@PathVariable int id) {
 
-    @GetMapping("")
-    public List<UserResponseModel> findAllUsers(){
-        return userService.findAllUsers();
-    }
+    return userService.findUserById(id);
+  }
 
+  @PutMapping("")
+  public UserResponseModel updateUserById(@RequestBody UserRequestModel requestModel) {
 
+    return userService.updateUser(requestModel);
+  }
+
+  @DeleteMapping("")
+  public void deleteAccount() {
+
+    userService.deleteAccount();
+  }
 }

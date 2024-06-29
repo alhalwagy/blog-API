@@ -1,4 +1,4 @@
-package com.java.blogApp.dto;
+package com.java.blogApp.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,15 +13,14 @@ import java.sql.Timestamp;
 @Builder
 public class UserResponseModel {
 
-    private int id;
-    private String firstname;
+  private int id;
+  private String firstname;
 
-    private String lastname;
+  private String lastname;
 
-    private String email;
+  private String email;
 
-    private Timestamp createdAt;
+  private Timestamp createdAt;
 
-    private Timestamp updatedAt;
-
+  private Timestamp updatedAt;
 }

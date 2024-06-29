@@ -1,6 +1,5 @@
 package com.java.blogApp.entity;
 
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,14 +35,13 @@ public class Comment {
   @Column(name = "updated_at", nullable = false)
   private Timestamp updatedAt;
 
-  @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH,
-      CascadeType.PERSIST})
+  @ManyToOne(
+      cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
   @JoinColumn(name = "author_id")
   private User user;
 
-  @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH,
-      CascadeType.PERSIST})
+  @ManyToOne(
+      cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
   @JoinColumn(name = "post_id")
   private Post post;
-
 }
