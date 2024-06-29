@@ -38,4 +38,16 @@ public class GlobalExceptionHandler {
 
     return new ResponseEntity<>(responseError, HttpStatus.UNAUTHORIZED);
   }
+
+  @ExceptionHandler
+  public ResponseEntity<ResponseError> handleGlobalException(Exception exception) {
+    ResponseError error =
+        ResponseError.builder()
+            .message(exception.getMessage())
+            .occurredOn(new Timestamp(System.currentTimeMillis()))
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .build();
+
+    return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
+  }
 }

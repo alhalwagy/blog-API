@@ -3,12 +3,11 @@ package com.java.blogApp.service.implemention;
 import com.java.blogApp.dto.user.UserRequestModel;
 import com.java.blogApp.entity.User;
 import com.java.blogApp.exception.customExceptions.RecordNotFoundException;
-import com.java.blogApp.mapper.UserResponseMapper;
+import com.java.blogApp.mapper.UserMapper;
 import com.java.blogApp.dto.user.UserResponseModel;
 import com.java.blogApp.repository.UserRepository;
 import com.java.blogApp.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +20,7 @@ public class UserServiceImpl implements UserService {
 
   private final UserRepository userRepository;
 
-  private final UserResponseMapper userResponseMapper;
+  private final UserMapper userResponseMapper;
 
   @Override
   public List<UserResponseModel> findAllUsers() {
