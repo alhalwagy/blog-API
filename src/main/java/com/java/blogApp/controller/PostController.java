@@ -40,7 +40,6 @@ public class PostController {
 
   @DeleteMapping("{id}")
   public void deletePost(@PathVariable("id") int id) {
-    System.out.println("dsg;ljskhafhfaga");
     postService.deletePostById(id);
   }
 }
