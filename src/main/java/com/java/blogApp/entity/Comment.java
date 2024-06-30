@@ -29,6 +29,9 @@ public class Comment {
   @Column(name = "id", nullable = false)
   private int id;
 
+  @Column(name = "content", nullable = false)
+  private String content;
+
   @Column(name = "created_at", nullable = false)
   private Timestamp createdAt;
 
